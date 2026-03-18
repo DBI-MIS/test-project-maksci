@@ -22,6 +22,8 @@ const handleSuccess = () => {
     const popover3 = document.getElementById('edittype') as HTMLElement
     popover.hidePopover();
     popover3.hidePopover();
+    window.location.reload();
+
 }
 
 const deleteType = (id: number) => {

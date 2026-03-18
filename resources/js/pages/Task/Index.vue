@@ -64,6 +64,7 @@ const handleSuccess = () => {
     const popover2 = document.getElementById('editmodal') as HTMLElement
     popover.hidePopover();
     popover2.hidePopover();
+    window.location.reload();
 
 }
 
@@ -83,7 +84,9 @@ const editTask = (id: number) => {
     );
     //Bind the task to Form
     selectedTask.value = task;
+
 }
+
 
 </script>
 <template>
@@ -215,8 +218,8 @@ const editTask = (id: number) => {
                             <td>
                                 <div class="flex gap-4 justify-center">
 
-                                    <button @click="editTask(tsk.id)" class="bg-blue-300 w-20 h-10 rounded-xl"
-                                        popovertarget="editmodal">
+                                    <button class="bg-blue-300 w-20 h-10 rounded-xl"
+                                        popovertarget="editmodal" @click="editTask(tsk.id)" >
                                         Edit
                                     </button>
 
@@ -266,7 +269,7 @@ const editTask = (id: number) => {
 
             <Modal id="editmodal">
                 <template v-if="selectedTask">
-                    <Form v-bind="TaskController.update.form(selectedTask.id)" @success="handleSuccess">
+                    <Form v-bind="TaskController.update.form(selectedTask.id)" @success="handleSuccess" reset-on-success >
                         <div class="flex flex-col items-center gap-5">
                             <label for="task" class="text-2xl">Edit Task</label>
                             <input :defaultValue="selectedTask.task" type="text" name="task"
