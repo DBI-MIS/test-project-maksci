@@ -5,7 +5,7 @@ import TaskController from '@/actions/App/Http/Controllers/TaskController';
 import TypeController from '@/actions/App/Http/Controllers/TypeController';
 import Modal from '@/components/Modal.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
-import task from '@/routes/task';
+
 
 
 
@@ -61,7 +61,10 @@ const updateStatus = (id: number, status: string) => {
 
 const handleSuccess = () => {
     const popover = document.getElementById('createmodal') as HTMLElement
+    const popover2 = document.getElementById('editmodal') as HTMLElement
     popover.hidePopover();
+    popover2.hidePopover();
+
 }
 
 //Get What Task to Edit
@@ -260,7 +263,7 @@ const editTask = (id: number) => {
 
             <Modal id="editmodal">
                 <template v-if="selectedTask">
-                    <Form v-bind="TaskController.update.form(selectedTask.id)">
+                    <Form v-bind="TaskController.update.form(selectedTask.id)" reset-on-success @success="handleSuccess">
                         <div class="flex flex-col items-center gap-5">
                             <label for="task" class="text-2xl">Edit Task</label>
                             <input :defaultValue="selectedTask.task" type="text" name="task"

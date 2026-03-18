@@ -24,7 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/tasks/{id}/status', [TaskController::class, 'updateStatus'])->name('tasks.status');
 
     Route::get('/type', [TypeController::class, 'index'])->name('type.index');
-    Route::get('/type/created',[TypeController::class, 'created'])->name('type.created');
+    Route::get('/type/create',[TypeController::class, 'create'])->name('type.create');
     Route::post('/type', [TypeController::class, 'store'])->name('type.store');
     Route::get('/type/{type}/edit',[TypeController::class, 'edit'])->name('type.edit');
     Route::post('/type/{type}',[TypeController::class, 'update'])->name('type.update');

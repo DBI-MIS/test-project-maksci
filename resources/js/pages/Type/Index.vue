@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
-
 import TaskController from '@/actions/App/Http/Controllers/TaskController';
 import TypeController from '@/actions/App/Http/Controllers/TypeController';
 import Modal from '@/components/Modal.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { types } from 'util';
+
 
 
 const props = defineProps({
@@ -39,7 +38,7 @@ const deleteType = (id: number) => {
                 </Link>
                 <div class="flex gap-3">
                     <div class="bg-blue-300 w-30 h-10 rounded-2xl flex justify-center items-center">
-                        <button popovertarget="addtask">
+                        <button popovertarget="createmodal">
                             ADD Task
                         </button>
                     </div>
@@ -85,7 +84,7 @@ const deleteType = (id: number) => {
                     </tbody>
                 </table>
             </div>
-            <Modal id="addtask">
+            <Modal id="createmodal">
                 <Form v-bind="TaskController.store.form()">
                     <div class="flex flex-col items-center gap-5">
                         <label for="task" class="text-2xl">Add New Task</label>

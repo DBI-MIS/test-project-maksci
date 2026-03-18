@@ -20,7 +20,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
                         </Link>
                     </div>
                     <div class="bg-blue-300 w-30 h-10 rounded-2xl flex justify-center items-center">
-                        <Link :href="TypeController.created().url">
+                        <Link :href="TypeController.create().url">
                             ADD Type
                         </Link>
                     </div>

@@ -32,7 +32,7 @@ const props = defineProps({
                         </Link>
                     </div>
                     <div class="bg-blue-300 w-30 h-10 rounded-2xl flex justify-center items-center">
-                        <Link :href="TypeController.created()">
+                        <Link :href="TypeController.create()">
                             ADD Type
                         </Link>
                     </div>

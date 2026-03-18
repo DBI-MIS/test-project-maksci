@@ -15,9 +15,10 @@ class TypeController extends Controller
     }
 
 
-    public function created()
+    public function create()
     {
-        return Inertia::render('Type/Created');
+        $types = Type::get();
+        return Inertia::render('Type/Create', ['types' => $types]);
     }
 
     public function store()
@@ -27,7 +28,7 @@ class TypeController extends Controller
             'description' => ['required', 'string']
         ]);
 
-        Type::created($data);
+        Type::create($data);
         return to_route('type.index');
     }
 
