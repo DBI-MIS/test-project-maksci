@@ -49,11 +49,12 @@ const updateStatus = (id: number, status: string) => {
         router.patch(`/tasks/${id}/status`, {
             status: status
         });
+    }else{
+        router.reload({ only: ['tasks'] });
+    // router.reload
     }
 
-    router.reload({ only: ['task'] });
-    // router.reload
-
+    
 }
 
 

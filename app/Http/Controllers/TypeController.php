@@ -27,7 +27,7 @@ class TypeController extends Controller
             'description' => ['required', 'string']
         ]);
 
-        Type::create($data);
+        Type::created($data);
         return to_route('type.index');
     }
 
