@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { Link, router } from '@inertiajs/vue3';
+import { Form, Link, router } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import TaskController from '@/actions/App/Http/Controllers/TaskController';
 import TypeController from '@/actions/App/Http/Controllers/TypeController';
 import Modal from '@/components/Modal.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
+
 
 
 
@@ -12,19 +14,32 @@ const props = defineProps({
         type: Object,
         required: true
     },
-    tasks:{
-        type:Object,
-        required:true
-    }
+   
 });
 
-
+const handleSuccess = () => {
+    const popover = document.getElementById('addtype') as HTMLElement
+    const popover3 = document.getElementById('edittype') as HTMLElement
+    popover.hidePopover();
+    popover3.hidePopover();
+}
 
 const deleteType = (id: number) => {
     if (confirm('Are you sure you want to delete Type?')) {
         router.delete(TypeController.destroy(id).url)
 
     }
+}
+
+const selectedType = ref();
+
+const editType = (id: number) => {
+    const type = props.types.find((type) =>
+        type.id === id
+    );
+
+    selectedType.value = type;
+
 }
 
 </script>
@@ -38,7 +53,7 @@ const deleteType = (id: number) => {
                 </Link>
                 <div class="flex gap-3">
                     <div class="bg-blue-300 w-30 h-10 rounded-2xl flex justify-center items-center">
-                        <button popovertarget="createmodal">
+                        <button popovertarget="addtask">
                             ADD Task
                         </button>
                     </div>
@@ -65,15 +80,13 @@ const deleteType = (id: number) => {
                     </thead>
                     <tbody>
                         <tr v-for="typ in props.types" :key="typ.id" class="h-15">
-                            <td>{{ typ.type }}</td>
-                            <td>{{ typ.description }}</td>
-                            <td>
+                            <td class="p-5">{{ typ.type }}</td>
+                            <td class="p-4">{{ typ.description }}</td>
+                            <td class="p-4">
                                 <div class="flex gap-4 justify-center">
-                                    <Link :href="TypeController.edit(typ.id)">
-                                        <button class="bg-blue-300 w-20 h-10 rounded-xl">
-                                            Edit
-                                        </button>
-                                    </Link>
+                                    <button class="bg-blue-300 w-20 h-10 rounded-xl" @click="editType(typ.id)"  popovertarget="edittype">
+                                        Edit
+                                    </button>
                                     <button type="button" @click="deleteType(typ.id)"
                                         class="bg-red-500 w-20 h-10 rounded-xl">
                                         Delete
@@ -84,7 +97,7 @@ const deleteType = (id: number) => {
                     </tbody>
                 </table>
             </div>
-            <Modal id="createmodal">
+            <Modal id="addtask">
                 <Form v-bind="TaskController.store.form()">
                     <div class="flex flex-col items-center gap-5">
                         <label for="task" class="text-2xl">Add New Task</label>
@@ -101,7 +114,7 @@ const deleteType = (id: number) => {
                 </Form>
             </Modal>
             <Modal id="addtype">
-                <Form v-bind="TypeController.store.form()">
+                <Form v-bind="TypeController.store.form()" reset-on-success @success="handleSuccess">
                     <div class="flex flex-col items-center gap-5">
                         <label for="task" class="text-2xl">Create New Type</label>
                         <input type="text" name="type" class="border p-2 border-gray-300 h-10">
@@ -112,6 +125,21 @@ const deleteType = (id: number) => {
                         </div>
                     </div>
                 </Form>
+            </Modal>
+            <Modal id="edittype">
+                <template v-if="selectedType">
+                    <Form v-bind="TypeController.update.form(selectedType.id)" @success="handleSuccess">
+                        <div class="flex flex-col items-center gap-5">
+                            <label for="task" class="text-2xl">Type</label>
+                            <input :defaultValue="selectedType.type" type="text" name="type"
+                                class="border p-2 border-gray-300 h-10">
+                            <label for="task" class="text-2xl">Description</label>
+                            <input :defaultValue="selectedType.description" type="text" name="description"
+                                class="border p-2 border-gray-300 h-10">
+                            <button type="submit" class="bg-blue-300 w-30 h-10 rounded-2xl">Edit</button>
+                        </div>
+                    </Form>
+                </template>
             </Modal>
         </div>
     </AppLayout>

@@ -67,18 +67,21 @@ const handleSuccess = () => {
 
 }
 
-//Get What Task to Edit
-//Save to a variable 
-//Bind the task to Form
+
+ 
+
 //Submit
 
+//Save to a variable
 const selectedTask = ref();
 
+
+//Get What Task to Edit
 const editTask = (id: number) => {
     const task = props.tasks.find((task) =>
         task.id === id
     );
-
+    //Bind the task to Form
     selectedTask.value = task;
 }
 
@@ -263,7 +266,7 @@ const editTask = (id: number) => {
 
             <Modal id="editmodal">
                 <template v-if="selectedTask">
-                    <Form v-bind="TaskController.update.form(selectedTask.id)" reset-on-success @success="handleSuccess">
+                    <Form v-bind="TaskController.update.form(selectedTask.id)" @success="handleSuccess">
                         <div class="flex flex-col items-center gap-5">
                             <label for="task" class="text-2xl">Edit Task</label>
                             <input :defaultValue="selectedTask.task" type="text" name="task"
@@ -277,7 +280,7 @@ const editTask = (id: number) => {
                             </select>
                             <input :defaultValue="selectedTask.due" type="date" name="due"
                                 class="h-10 w-50 border border-gray-300 ">
-                            <button type="submit" class="bg-blue-300 w-30 h-10 rounded-2xl">Submit</button>
+                            <button type="submit" class="bg-blue-300 w-30 h-10 rounded-2xl">Edit</button>
                         </div>
                     </Form>
                 </template>

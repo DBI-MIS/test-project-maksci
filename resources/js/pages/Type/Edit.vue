@@ -51,7 +51,7 @@ const props = defineProps({
                             <input :defaultValue="props.type.type" type="text" name="type"
                                 class="border p-2 border-gray-300 h-10">
                             <label for="task" class="text-2xl">Description</label>
-                            <input :defaultValue="props.type.description" type="text" name="description"
+                            <input :defaultValue="props.type.description" type="textarea" name="description"
                                 class="border p-2 border-gray-300 h-10">
                             <button type="submit" class="bg-blue-300 w-30 h-10 rounded-2xl">Submit</button>
                         </div>

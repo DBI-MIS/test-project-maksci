@@ -10,7 +10,7 @@ class TypeController extends Controller
 {
     
      public function index(){
-        $types = Type::get();
+        $types = Type::latest()->get();
         return Inertia::render('Type/Index', ['types' => $types]);
     }
 
