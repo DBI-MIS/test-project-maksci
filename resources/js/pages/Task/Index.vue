@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { Form, Link, router } from '@inertiajs/vue3';
+import { SquarePen, SquarePenIcon, Trash } from 'lucide-vue-next';
 import { ref } from 'vue';
 import TaskController from '@/actions/App/Http/Controllers/TaskController';
 import TypeController from '@/actions/App/Http/Controllers/TypeController';
 import Modal from '@/components/Modal.vue';
+import Top from '@/components/Top.vue';
+import Toplinks from '@/components/Toplinks.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
-
 
 
 
@@ -17,7 +19,7 @@ const props = defineProps({
     types: {
         type: Object,
         required: true
-    }
+    },
 
 });
 
@@ -49,12 +51,12 @@ const updateStatus = (id: number, status: string) => {
         router.patch(`/tasks/${id}/status`, {
             status: status
         });
-    }else{
+    } else {
         router.reload({ only: ['tasks'] });
-    // router.reload
+        // router.reload
     }
 
-    
+
 }
 
 
@@ -69,7 +71,7 @@ const handleSuccess = () => {
 }
 
 
- 
+
 
 //Submit
 
@@ -92,34 +94,12 @@ const editTask = (id: number) => {
 <template>
     <AppLayout>
         <div class="flex flex-col bg-gray-50 ">
-            <div class="bg-blue flex justify-between bg-slate-200 h-20 p-5 items-center">
+            <Top>
                 <Link :href="TaskController.dashboard().url">
                     <h1 class="text-3xl font-extrabold font-serif">To Do List</h1>
                 </Link>
-                <div class="flex gap-3">
-                    <div class="bg-blue-300 w-30 h-10 rounded-2xl flex justify-center items-center">
-                        <!-- <Link :href="TaskController.create().url">
-                            ADD Task
-                        </Link> -->
-                        <button popovertarget="createmodal">
-                            ADD Task
-                        </button>
-                    </div>
-                    <div class="bg-blue-300 w-30 h-10 rounded-2xl flex justify-center items-center">
-                        <!-- <Link :href="TypeController.created().url">
-                            ADD Type
-                        </Link> -->
-                        <button popovertarget="createdmodal">
-                            ADD Type
-                        </button>
-                    </div>
-                    <div class="bg-blue-300 w-30 h-10 rounded-2xl flex justify-center items-center">
-                        <Link :href="TaskController.index().url">
-                            Show Tasks
-                        </Link>
-                    </div>
-                </div>
-            </div>
+                <Toplinks />
+            </Top>
             <div class="p-3">
                 <h1 class="text-2xl">Pending Tasks</h1>
 
@@ -165,13 +145,13 @@ const editTask = (id: number) => {
                                             Edit
                                         </button>
                                     </Link> -->
-                                    <button @click="editTask(tsk.id)" class="bg-blue-300 w-20 h-10 rounded-xl"
+                                    <button @click="editTask(tsk.id)" 
                                         popovertarget="editmodal">
-                                        Edit
+                                        <SquarePenIcon/>
                                     </button>
                                     <button type="button" @click="deleteTask(tsk.id)"
-                                        class="bg-red-500 w-20 h-10 rounded-xl">
-                                        Delete
+                                       >
+                                        <Trash />
                                     </button>
                                 </div>
 
@@ -218,20 +198,18 @@ const editTask = (id: number) => {
                             <td>
                                 <div class="flex gap-4 justify-center">
 
-                                    <button class="bg-blue-300 w-20 h-10 rounded-xl"
-                                        popovertarget="editmodal" @click="editTask(tsk.id)" >
-                                        Edit
+                                    <button  popovertarget="editmodal"
+                                        @click="editTask(tsk.id)">
+                                        <SquarePenIcon/>
                                     </button>
 
                                     <!-- <button class="bg-blue-300 w-20 h-10 rounded-xl" @click="showTaskEdit = true">
                                         Edit
                                     </button> -->
-                                    <button type="button" @click="deleteTask(tsk.id)"
-                                        class="bg-red-500 w-20 h-10 rounded-xl">
-                                        Delete
+                                    <button type="button" @click="deleteTask(tsk.id)">
+                                        <Trash />
                                     </button>
                                 </div>
-
                             </td>
                         </tr>
                     </tbody>
@@ -269,7 +247,8 @@ const editTask = (id: number) => {
 
             <Modal id="editmodal">
                 <template v-if="selectedTask">
-                    <Form v-bind="TaskController.update.form(selectedTask.id)" @success="handleSuccess" reset-on-success >
+                    <Form v-bind="TaskController.update.form(selectedTask.id)" @success="handleSuccess"
+                        reset-on-success>
                         <div class="flex flex-col items-center gap-5">
                             <label for="task" class="text-2xl">Edit Task</label>
                             <input :defaultValue="selectedTask.task" type="text" name="task"

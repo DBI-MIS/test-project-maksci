@@ -5,6 +5,8 @@ import TaskController from '@/actions/App/Http/Controllers/TaskController';
 import TypeController from '@/actions/App/Http/Controllers/TypeController';
 import Modal from '@/components/Modal.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
+import Top from '@/components/Top.vue';
+import Toplinks from '@/components/Toplinks.vue';
 
 
 
@@ -14,14 +16,14 @@ const props = defineProps({
         type: Object,
         required: true
     },
-   
+
 });
 
 const handleSuccess = () => {
-    const popover = document.getElementById('addtype') as HTMLElement
-    const popover3 = document.getElementById('edittype') as HTMLElement
+    const popover = document.getElementById('createdmodal') as HTMLElement
+    const popover2 = document.getElementById('edittype') as HTMLElement
     popover.hidePopover();
-    popover3.hidePopover();
+    popover2.hidePopover();
     window.location.reload();
 
 }
@@ -49,28 +51,12 @@ const editType = (id: number) => {
     <AppLayout>
 
         <div class="flex flex-col bg-gray-50">
-            <div class="bg-blue flex justify-between bg-slate-200 h-20 p-5 items-center">
+            <Top>
                 <Link :href="TaskController.dashboard().url">
                     <h1 class="text-3xl font-extrabold font-serif">To Do List</h1>
                 </Link>
-                <div class="flex gap-3">
-                    <div class="bg-blue-300 w-30 h-10 rounded-2xl flex justify-center items-center">
-                        <button popovertarget="addtask">
-                            ADD Task
-                        </button>
-                    </div>
-                    <div class="bg-blue-300 w-30 h-10 rounded-2xl flex justify-center items-center">
-                        <button popovertarget="addtype">
-                            ADD Type
-                        </button>
-                    </div>
-                    <div class="bg-blue-300 w-30 h-10 rounded-2xl flex justify-center items-center">
-                        <Link :href="TaskController.index().url">
-                            Show Tasks
-                        </Link>
-                    </div>
-                </div>
-            </div>
+                <Toplinks />
+            </Top>
             <div class="p-3">
                 <table class="min-w-full border justify-center text-center shadow-xl">
                     <thead>
@@ -86,7 +72,8 @@ const editType = (id: number) => {
                             <td class="p-4">{{ typ.description }}</td>
                             <td class="p-4">
                                 <div class="flex gap-4 justify-center">
-                                    <button class="bg-blue-300 w-20 h-10 rounded-xl" @click="editType(typ.id)"  popovertarget="edittype">
+                                    <button class="bg-blue-300 w-20 h-10 rounded-xl" @click="editType(typ.id)"
+                                        popovertarget="edittype">
                                         Edit
                                     </button>
                                     <button type="button" @click="deleteType(typ.id)"
@@ -99,7 +86,7 @@ const editType = (id: number) => {
                     </tbody>
                 </table>
             </div>
-            <Modal id="addtask">
+            <Modal id="createmodal">
                 <Form v-bind="TaskController.store.form()">
                     <div class="flex flex-col items-center gap-5">
                         <label for="task" class="text-2xl">Add New Task</label>
@@ -115,7 +102,7 @@ const editType = (id: number) => {
                     </div>
                 </Form>
             </Modal>
-            <Modal id="addtype">
+            <Modal id="createdmodal">
                 <Form v-bind="TypeController.store.form()" reset-on-success @success="handleSuccess">
                     <div class="flex flex-col items-center gap-5">
                         <label for="task" class="text-2xl">Create New Type</label>
@@ -130,7 +117,7 @@ const editType = (id: number) => {
             </Modal>
             <Modal id="edittype">
                 <template v-if="selectedType">
-                    <Form v-bind="TypeController.update.form(selectedType.id)" @success="handleSuccess">
+                    <Form v-bind="TypeController.update.form(selectedType.id)"  @success="handleSuccess" reset-on-success>
                         <div class="flex flex-col items-center gap-5">
                             <label for="task" class="text-2xl">Type</label>
                             <input :defaultValue="selectedType.type" type="text" name="type"

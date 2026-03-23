@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\History;
 use App\Models\Task;
 use App\Models\Type;
 use Illuminate\Http\Request;
@@ -17,6 +18,13 @@ class TaskController extends Controller
         return Inertia::render('Task/Index', ['tasks' => $tasks, 'types' => $types]);
     }
 
+    public function history()
+     {
+        $types = Type::latest()->get();
+        $history = History::latest()->get();
+        $tasks = Task::with(['types'])->orderBy('created_at','desc')->get();
+        return Inertia::render('Task/Index', ['tasks' => $tasks, 'types' => $types, 'history' => $history]);
+    }
      public function dashboard()
      {
         $type = Type::latest()->get();

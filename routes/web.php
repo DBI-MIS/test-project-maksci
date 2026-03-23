@@ -14,6 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/task', [TaskController::class, 'index'])->name('task.index');
     Route::get('/task/dashboard', [TaskController::class, 'dashboard'])->name('task.dashboard');
+    Route::get('/task/history', [TaskController::class, 'history'])->name('task.history');
     Route::get('/task/pending', [TaskController::class, 'pending'])->name('task.pending');
     Route::get('/task/completed', [TaskController::class, 'completed'])->name('task.completed');
     Route::get('/task/create',[TaskController::class, 'create'])->name('task.create');
