@@ -21,9 +21,10 @@ class TaskController extends Controller
     public function history()
      {
         $types = Type::latest()->get();
-        $history = History::latest()->get();
+        $histories = History::latest()->get();
         $tasks = Task::with(['types'])->orderBy('created_at','desc')->get();
-        return Inertia::render('Task/Index', ['tasks' => $tasks, 'types' => $types, 'history' => $history]);
+        $tasks = Task::with(['histories'])->orderBy('created_at','desc')->get();
+        return Inertia::render('Task/History', ['tasks' => $tasks, 'types' => $types, 'histories' => $histories]);
     }
      public function dashboard()
      {

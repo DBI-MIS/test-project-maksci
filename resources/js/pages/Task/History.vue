@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 const props = defineProps({
-    history:{
+    histories:{
         type:Object,
         required:true
     }
@@ -9,6 +9,8 @@ const props = defineProps({
 </script>
 <template>
     <div>
-        {{ props.history.action }}
+      <template v-for="history in props.histories" :key="history.id">
+        <span>{{ history.action }}</span>
+      </template>
     </div>
 </template>

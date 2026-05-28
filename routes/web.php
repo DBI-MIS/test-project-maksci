@@ -2,12 +2,21 @@
 
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TypeController;
+use App\Services\AiService;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
 use Laravel\Fortify\Features;
+use Laravel\Ai\AiManager;
 
 Route::inertia('/', 'Welcome', [
     'canRegister' => Features::enabled(Features::registration()),
 ])->name('home');
+
+
+// Route::get('/test-groq', function (AiService $ai) {
+//     return $ai->ask('Hello');
+// });
+Route::inertia('/chat', 'Chat');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');

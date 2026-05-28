@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Form, Link, router } from '@inertiajs/vue3';
-import { SquarePen, SquarePenIcon, Trash } from 'lucide-vue-next';
+import {  SquarePenIcon, Trash } from 'lucide-vue-next';
 import { ref } from 'vue';
 import TaskController from '@/actions/App/Http/Controllers/TaskController';
 import TypeController from '@/actions/App/Http/Controllers/TypeController';
